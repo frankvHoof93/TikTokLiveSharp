@@ -803,9 +803,12 @@ namespace TikTokLiveSharp.Client
                 activeGifts[giftId].FinishStreak();
                 activeGifts.Remove(giftId);
             }
-            if (ShouldLog(LogLevel.Verbose))
-                Debug.Log($"Handling GiftMessage");
-            RunEvent(OnGiftMessage, new GiftMessage(message));
+            else
+            {
+                if (ShouldLog(LogLevel.Verbose))
+                    Debug.Log($"Handling GiftMessage");
+                RunEvent(OnGiftMessage, new GiftMessage(message));
+            }
         }
         /// <summary>
         /// Handles a WebcastSocialMessage
