@@ -333,7 +333,7 @@ namespace TikTokLiveSharp.Client
         /// <param name="retryConnection">Whether to Retry connections that might be recoverable</param>
         public void Run(CancellationToken? cancellationToken = null, Action<Exception> onConnectException = null, bool retryConnection = false)
         {
-            token = cancellationToken ?? new CancellationToken();
+            token = cancellationToken.HasValue ? cancellationToken.Value : new CancellationToken();
             token.ThrowIfCancellationRequested();
             if (ShouldLog(LogLevel.Information))
                 Debug.Log("Starting Threads");
@@ -351,7 +351,7 @@ namespace TikTokLiveSharp.Client
         /// <param name="retryConnection">Whether to Retry connections that might be recoverable</param>
         public async Task RunAsync(CancellationToken? cancellationToken = null, Action<Exception> onConnectException = null, bool retryConnection = false)
         {
-            token = cancellationToken ?? new CancellationToken();
+            token = cancellationToken.HasValue ? cancellationToken.Value : new CancellationToken();
             token.ThrowIfCancellationRequested();
             if (ShouldLog(LogLevel.Information))
                 Debug.Log("Starting Threads");
@@ -371,7 +371,7 @@ namespace TikTokLiveSharp.Client
         /// <returns>Task to Await. Result is RoomID</returns>
         public async Task<string> Start(CancellationToken? cancellationToken = null, Action<Exception> onConnectException = null, bool retryConnection = false)
         {
-            token = cancellationToken ?? new CancellationToken();
+            token = cancellationToken.HasValue ? cancellationToken.Value : new CancellationToken();
             try
             {
                 token.ThrowIfCancellationRequested();
