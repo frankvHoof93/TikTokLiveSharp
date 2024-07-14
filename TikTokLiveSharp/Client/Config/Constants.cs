@@ -108,7 +108,6 @@ namespace TikTokLiveSharp.Client.Config
             { "Accept", "text/html,application/json,application/protobuf" },
             { "User-Agent", USER_AGENT },
             { "Referer", TIKTOK_URL_WEB },
-            { "Origin", TIKTOK_URL_WEB },
             { "Accept-Language", "en; q=0.8" }
         });
 
