@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - Fix 403 Errors on Gifts & RoomInfo - 2024-07-14
+
+Bugfix for 403-Errors on fetching Available Gifts & RoomInfo.
+
+### Added
+
+- Updated Logging to direct users to Discord when issues arise with the signing-server.
+- Added HideInCallstack-Attribute to Logging-methods to hide these methods in Unity's Console-UI.
+  Note: This only works if the user enables "Strip logging callstack" in the console's menu.
+
+### Fixed
+
+- Fixed (secondary) regex-match for RoomId
+- Removed Origin-Header from HTTP-Requests, as that seemed to be causing the 403-errors.
+
+### Changed
+
+- Replaced ?? when checking cancellationtoken with HasValue to try to prevent 'Nullable object must have a value'.
+- Updated BugReport-Template to include Environment-info.
+
 ## [1.1.1] - Websocket Bugfix
 
 Bugfix for failing Websocket-Connection

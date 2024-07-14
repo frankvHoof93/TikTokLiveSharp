@@ -7,6 +7,10 @@ assignees: ''
 
 ---
 
+**Describe the Environment in which the bug occurred**
+Which Platform, Library, etc. where you using at the moment the bug occurred?
+(e.g. TikTokLive Unity v1.2.0, Android Platform, built to a Samsung Galaxy device on Android 8.0)
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 

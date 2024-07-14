@@ -1,6 +1,6 @@
-# TikTokLiveSharp / TikTokLiveUnity v1.1.1
+# TikTokLiveSharp / TikTokLiveUnity v1.2.0
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/frankvhoof93/ )
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/frankvhoof93/)
 ![Issues](https://img.shields.io/github/issues/frankvHoof93/TikTokLiveSharp)
 ![Forks](https://img.shields.io/github/forks/frankvHoof93/TikTokLiveSharp)
 ![Stars](https://img.shields.io/github/stars/frankvHoof93/TikTokLiveSharp)
@@ -16,7 +16,7 @@ If you want to showcase a project you've made with this library, create an Issue
 Other than that issues are purely for bugs, if you're having an implementation issue, please send a message in the [discord server](https://discord.gg/e2XwPNTBBr).
 
 ## New Fork
-This project is a continuation of the original TikTokLiveSharp-Library by sebheron. The original project can be found on [Github](). The Readme for that project can also be found [here](README_ORIGINAL.MD).
+This project is a continuation of the original TikTokLiveSharp-Library by sebheron. The original project can be found on [Github](https://github.com/sebheron/TikTokLiveSharp). The Readme for that project can also be found [here](README_ORIGINAL.MD).
 
 As the original Project did not seem to be receiving any new updates, and all the existing TikTokLive-Libraries were lacking in their Messaging-Schema's, this fork involved a re-write of large portions of the original. The original Messaging-Schema has been completely replaced, which can lead to breaking changes. Upgrade to this Library at your own discretion.
 
@@ -28,6 +28,7 @@ Other available versions include:
 - [GoTikTokLive](https://github.com/Davincible/gotiktoklive) - Go Library (by David Brouwer)
 - [TikTokLive](https://github.com/isaackogan/TikTokLive) - Python Library (by Isaac Kogan)
 - [TikTokLiveJava](https://github.com/jwdeveloper/TikTokLiveJava) - Java Library (by JW)
+- [TikTokLiveRust](https://github.com/jwdeveloper/TikTokLiveRust) - Rust Library (by JW)
 
 The primary incentive behind this library was to update the existing TikTokLive-Library with anew Messaging-Schema and additional Exception-Handling. It's implemented in .NET Standard and should work universally across all .NET supported platforms. An older version of Protobuf-net was used to ensure Unity compatibility.
 
