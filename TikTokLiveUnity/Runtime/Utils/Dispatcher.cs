@@ -116,7 +116,7 @@ namespace TikTokLiveUnity.Utils
         {
             if (instance == null)
             {
-                instance = new GameObject("Dispatcher").AddComponent<Dispatcher>();
+                instance = new GameObject("TikTokLiveDispatcher").AddComponent<Dispatcher>();
                 DontDestroyOnLoad(instance.gameObject);
             }
         }

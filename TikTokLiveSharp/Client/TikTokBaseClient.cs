@@ -376,13 +376,13 @@ namespace TikTokLiveSharp.Client
             {
                 token.ThrowIfCancellationRequested();
                 if (ShouldLog(LogLevel.Information))
-                    Debug.Log("Connecting");
+                    Debug.Log("Starting Connection");
                 return await Connect(onConnectException);
             }
             catch (OperationCanceledException) // cancelled by User
             {
                 if (ShouldLog(LogLevel.Warning))
-                    Debug.LogWarning("Cancelled by User");
+                    Debug.LogWarning("Connect cancelled by User");
                 return null;
             }
             catch (AConnectionException e)
@@ -393,7 +393,7 @@ namespace TikTokLiveSharp.Client
                 if (e is FailedConnectionException && retryConnection)
                 {
                     if (ShouldLog(LogLevel.Information))
-                        Debug.Log("Retrying");
+                        Debug.Log("Retrying Connection");
                     Connecting = false;
                     await Task.Delay(TimeSpan.FromSeconds(settings.ReconnectInterval), cancellationToken.Value);
                     return await Start(cancellationToken, onConnectException, true);
@@ -464,7 +464,7 @@ namespace TikTokLiveSharp.Client
             if (!settings.SkipRoomInfo)
             {
                 if (ShouldLog(LogLevel.Verbose))
-                    Debug.Log("Fetch RoomInfo");
+                    Debug.Log("Fetching RoomInfo");
                 JObject info = await FetchRoomInfo();
                 JToken status = info["data"]?["status"];
                 if (status == null || status.Value<int>() == 4)
@@ -476,7 +476,7 @@ namespace TikTokLiveSharp.Client
                 try
                 {
                     if (ShouldLog(LogLevel.Verbose))
-                        Debug.Log("Fetch GiftInfo");
+                        Debug.Log("Fetching GiftInfo");
                     await FetchAvailableGifts();
                 }
                 catch (FailedFetchGiftsException e)
@@ -606,7 +606,7 @@ namespace TikTokLiveSharp.Client
         /// </summary>
         /// <returns></returns>
         /// <exception cref="FailedFetchRoomInfoException">Thrown if valid RoomID for Host could not be parsed</exception>
-        private async Task<string> FetchRoomId(IDictionary<string, object> parameters = null)
+        private async Task<string> FetchRoomId(IDictionary<string, object> parameters = null, bool retryAttempt = false)
         {
             IDictionary<string, object> queryParams = clientParams ?? new Dictionary<string, object>();
             if (parameters != null)
@@ -615,11 +615,13 @@ namespace TikTokLiveSharp.Client
             string html;
             try
             {
+                if (ShouldLog(LogLevel.Information))
+                    Debug.Log("Scraping Webpage for Room-ID");
                 html = await httpClient.GetLivestreamPage(HostName, queryParams);
             }
             catch (Exception e)
             {
-                FailedFetchRoomInfoException exc = new FailedFetchRoomInfoException("Failed to fetch room id from WebCast, see stacktrace for more info.", e);
+                FailedFetchRoomInfoException exc = new FailedFetchRoomInfoException("Failed to scrape Webpage, see stacktrace for more info.", e);
                 if (ShouldLog(LogLevel.Error))
                     Debug.LogException(exc);
                 throw exc;
@@ -639,12 +641,19 @@ namespace TikTokLiveSharp.Client
             }
             else
             {
-                if (html.Contains("Please wait..."))
-                    return await FetchRoomId();
-                FailedFetchRoomInfoException exc = new FailedFetchRoomInfoException(html.Contains("\"og:url\"") ? "User might be offline" : "Your IP or country might be blocked by TikTok.");
-                if (ShouldLog(LogLevel.Error))
-                    Debug.LogException(exc);
-                throw exc;
+                if (html.Contains("Please wait...") && !retryAttempt)
+                {
+                    if (ShouldLog(LogLevel.Information))
+                        Debug.Log("TikTok returned 'Please Wait' instead of the page. Retrying.");
+                    return await FetchRoomId(parameters, true);
+                }
+                else
+                {
+                    FailedFetchRoomInfoException exc = new FailedFetchRoomInfoException("Could not find RoomId on Webpage. " + (html.Contains("\"og:url\"") ? "User might be offline." : "Your IP or country might be blocked by TikTok."));
+                    if (ShouldLog(LogLevel.Error))
+                        Debug.LogException(exc);
+                    throw exc;
+                }
             }
         }
 
