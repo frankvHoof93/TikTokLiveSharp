@@ -490,13 +490,43 @@ namespace TikTokLiveSharp.Client
             token.ThrowIfCancellationRequested();
             if (ShouldLog(LogLevel.Verbose))
                 Debug.Log("Signing Connection");
-            TikTokWebSocketConnectionData connectionData = await httpClient.GetSignedWebsocketData(RoomID, settings.CustomSigningServerUrl, settings.SigningKey);
+            TikTokWebSocketConnectionData connectionData = default;
+            try
+            {
+                connectionData = await httpClient.GetSignedWebsocketData(RoomID, settings.CustomSigningServerUrl, settings.SigningKey);
+            }
+            catch (Exception) {
+                if (ShouldLog(LogLevel.Error))
+                    Debug.LogError("[SIGNING-ERROR] An error occurred whilst signing the Socket-Url. If the issue persists, please contact the signing-server operator via the Discord.");
+                Connecting = false;
+                throw;
+            }
             token.ThrowIfCancellationRequested();
+            if (connectionData.InitialWebcastResponse == null) // Failed signing. We should exit/crash here.
+            {
+                Connecting = false;
+                return string.Empty;
+            }
             if (ShouldLog(LogLevel.Information))
                 Debug.Log("Creating WebSocketClient");
-            await CreateWebSocket(connectionData);
-            token.ThrowIfCancellationRequested();
+            try
+            {
+                await CreateWebSocket(connectionData);
+            }
+            catch (HandleMessageException)
+            {
+                if (ShouldLog(LogLevel.Error))
+                    Debug.LogError("[PARSE-ERROR] An error occurred whilst parsing the initial messages for the Livestream. However; the socket did connect.");
+            }
+            catch (Exception)
+            {
+                if (ShouldLog(LogLevel.Error))
+                    Debug.LogError("[SOCKET-ERROR] An error occurred whilst connecting to the TikTok-Server's WebSocket.");
+                Connecting = false;
+                throw;
+            }
             Connecting = false;
+            token.ThrowIfCancellationRequested();
             return RoomID;
         }
 
