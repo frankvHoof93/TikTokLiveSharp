@@ -14,7 +14,7 @@ namespace TikTokLiveSharp.Debugging
         /// <param name="message">Message to Log</param>
         /// <param name="context">Context for Message</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if UNITY
+#if UNITY && UNITY_2021_3_OR_NEWER
         [UnityEngine.HideInCallstack]
 #endif
         public static void Log(string message,
@@ -38,7 +38,7 @@ namespace TikTokLiveSharp.Debugging
         /// <param name="message">Warning to Log</param>
         /// <param name="context">Context for Warning</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if UNITY
+#if UNITY && UNITY_2021_3_OR_NEWER
         [UnityEngine.HideInCallstack]
 #endif
         public static void LogWarning(string message,
@@ -62,7 +62,7 @@ namespace TikTokLiveSharp.Debugging
         /// <param name="message">Error to Log</param>
         /// <param name="context">Context for Error</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if UNITY
+#if UNITY && UNITY_2021_3_OR_NEWER
         [UnityEngine.HideInCallstack]
 #endif
         public static void LogError(string message,
@@ -86,7 +86,7 @@ namespace TikTokLiveSharp.Debugging
         /// <param name="message">Exception to Log</param>
         /// <param name="context">Context for Exception</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#if UNITY
+#if UNITY && UNITY_2021_3_OR_NEWER
         [UnityEngine.HideInCallstack]
 #endif
         public static void LogException(Exception e,
