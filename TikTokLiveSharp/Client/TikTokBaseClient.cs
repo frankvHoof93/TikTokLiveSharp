@@ -317,7 +317,7 @@ namespace TikTokLiveSharp.Client
                 return false;
             }
             Match first = Regex.Match(html, "room_id=([0-9]*)");
-            Match second = Regex.Match(html, "\"roomId\":\"([0 - 9] *)\"");
+            Match second = Regex.Match(html, "\"roomId\":\"([0-9]*)\"");
             if (first.Groups.Count >= 1 && first.Groups[1].Value != string.Empty)
                 return true;
             return second.Groups.Count >= 1 && second.Groups[1].Value != string.Empty;
@@ -625,7 +625,7 @@ namespace TikTokLiveSharp.Client
                 throw exc;
             }
             Match first = Regex.Match(html, "room_id=([0-9]*)");
-            Match second = Regex.Match(html, "\"roomId\":\"([0 - 9] *)\"");
+            Match second = Regex.Match(html, "\"roomId\":\"([0-9]*)\"");
             string id = string.Empty;
             if (first.Groups.Count >= 1 && first.Groups[1].Value != string.Empty)
                 id = first.Groups[1].Value;
