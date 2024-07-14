@@ -251,6 +251,8 @@ namespace TikTokLiveSharp.Client.HTTP
             HttpResponseMessage response = await GetResponseMessage();
             if (response.StatusCode == HttpStatusCode.NotFound)
                 throw new HttpRequestException("Request responded with 404 NOT_FOUND");
+            if (response.StatusCode == HttpStatusCode.Forbidden)
+                throw new HttpRequestException("Request responded with 403 FORBIDDEN");
             if (!response.IsSuccessStatusCode)
                 throw new HttpRequestException($"Request was unsuccessful [{(int)response.StatusCode}]");
             MediaTypeHeaderValue ct = response.Content.Headers?.ContentType;

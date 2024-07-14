@@ -67,7 +67,7 @@ namespace TikTokLiveSharp.Client.Socket
         /// <param name="webProxy">Proxy to use for the Connection</param>
         public TikTokWebSocket(TikTokCookieJar cookieContainer, uint buffSize = 500_000, Dictionary<string, string> headers = null, CancellationToken? token = null, IWebProxy webProxy = null)
         {
-            this.token = token ?? CancellationToken.None;
+            this.token = token.HasValue ? token.Value : new CancellationToken();
             buffer = new byte[buffSize];
             readBuffer = new byte[buffSize];
             clientWebSocket = new ClientWebSocket();
