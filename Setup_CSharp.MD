@@ -1,4 +1,4 @@
-# TikTokLiveSharp v1.2.0
+# TikTokLiveSharp v1.2.1
 
 ## Downloading the Source Code
 Download the TikTokLiveSharp-SourceCode from the [Releases-Page](https://github.com/frankvHoof93/TikTokLiveSharp/releases/)
