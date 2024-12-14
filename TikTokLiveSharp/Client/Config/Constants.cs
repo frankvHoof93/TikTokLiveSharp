@@ -23,7 +23,11 @@ namespace TikTokLiveSharp.Client.Config
         /// <summary>
         /// User-Agent for WebClients (Http/WebSocket)
         /// </summary>
-        public const string USER_AGENT = "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36";
+        public const string USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
+        /// <summary>
+        /// Browser version for WebClients parameter (Http/WebSocket)
+        /// </summary>
+        public const string BROWSER_VERSION = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";/// <summary>
         /// <summary>
         /// Default TimeOut for Connections
         /// </summary>
@@ -71,7 +75,7 @@ namespace TikTokLiveSharp.Client.Config
             { "browser_name", "Mozilla" },
             { "browser_online", true },
             { "browser_platform", "Win32" },
-            { "browser_version", USER_AGENT },
+            { "browser_version", BROWSER_VERSION },
             { "cookie_enabled", true },
             { "cursor", "" },
             { "internal_ext", "" },
@@ -92,7 +96,6 @@ namespace TikTokLiveSharp.Client.Config
             { "referer", "https, //www.tiktok.com/" },
             { "root_referer", "https, //www.tiktok.com/" },
             { "msToken", "" },
-            { "version_code", 180800 },
             { "webcast_sdk_version", "1.3.0" },
             { "update_version_code", "1.3.0" }
         });
