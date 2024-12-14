@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - Fix empty json data for live info - 2024-12-14
+
+Bugfix for errors related to a change Tiktok made related to headers.
+
+### Fixed
+
+- Removed version_code header
+- Changed UserAgent (added Mozilla)
+
 ## [1.2.0] - Fix 403 Errors on Gifts & RoomInfo - 2024-07-14
 
 Bugfix for 403-Errors on fetching Available Gifts & RoomInfo.
