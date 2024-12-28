@@ -413,7 +413,7 @@ namespace TikTokLiveSharp.Client
                     onConnectException?.Invoke(e); // LiveStream was not Found (or Host is not Online)
                     throw e;
                 }
-                return null;
+                throw;
             }
             catch (AFetchException e)
             {
@@ -505,7 +505,7 @@ namespace TikTokLiveSharp.Client
             if (connectionData.InitialWebcastResponse == null) // Failed signing. We should exit/crash here.
             {
                 Connecting = false;
-                return string.Empty;
+                throw new SignConnectionException($"Failed signing connection to room {RoomID}, name {HostName}");
             }
             if (ShouldLog(LogLevel.Information))
                 Debug.Log("Creating WebSocketClient");
