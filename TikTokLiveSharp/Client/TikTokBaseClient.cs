@@ -556,7 +556,8 @@ namespace TikTokLiveSharp.Client
                         Debug.Log($"Adding Custom Param {param.Key}-{param.Value}");
                     clientParams[param.Key] = param.Value;
                 }
-                string url = $"{response.PushServer}?{string.Join("&", clientParams.Select(x => $"{x.Key}={WebUtility.UrlEncode(x.Value.ToString())}"))}";
+                string version_code = response.PushServer.Contains("ws-useast1a") ? "270000" : "180800";
+                string url = $"{response.PushServer}?version_code={version_code}&{string.Join("&", clientParams.Select(x => $"{x.Key}={WebUtility.UrlEncode(x.Value.ToString())}"))}";
                 if (ShouldLog(LogLevel.Verbose))
                     Debug.Log($"Creating Socket with URL {url}");
                 socketClient = new TikTokWebSocket(TikTokHttpRequest.CookieJar, settings.SocketBufferSize, connectionData.CookieHeaders, token, settings.Proxy);

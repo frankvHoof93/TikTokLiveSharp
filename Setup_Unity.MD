@@ -1,4 +1,4 @@
-# TikTokLiveUnity v1.2.1
+# TikTokLiveUnity v1.2.2
 
 ## Installing the Project in Unity
 - Open the Package Manager Window **(Window -> Package Manager)** 

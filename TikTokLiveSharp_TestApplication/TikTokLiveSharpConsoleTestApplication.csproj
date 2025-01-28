@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>1.2.1</Version>
+    <Version>1.2.2</Version>
     <Description>Console-TestApp with .NET Core for TikTokLive_Sharp</Description>
     <Copyright>2024 Frank van Hoof</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
