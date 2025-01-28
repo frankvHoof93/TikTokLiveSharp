@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2] - Specific version_code param for certain servers - 2025-01-28
+
+Bugfix for errors related to a change Tiktok made related to headers.
+
+### Fixed
+
+- Re-added version_code header.
+- Specific version_code for a certain Server
+
+### Added
+
+- WebP-Installer (for TTLUnity) will now also add the OpenUPM-registry to the project.
+- Added new versions of the library to Readme
+
 ## [1.2.1] - Fix empty json data for live info - 2024-12-14
 
 Bugfix for errors related to a change Tiktok made related to headers.
