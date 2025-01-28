@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
@@ -16,11 +18,19 @@ namespace TikTokLiveUnity.Editor
         /// <summary>
         /// GitHub-Url for WebP-Library
         /// </summary>
-        private const string WEBP_URL = "https://github.com/netpyoung/unity.webp.git?path=unity_project/Assets/unity.webp";
+        private const string WEBP_URL = @"https://github.com/netpyoung/unity.webp.git?path=unity_project/Assets/unity.webp";
         /// <summary>
         /// Name of Unity-Package
         /// </summary>
         private const string WEBP_NAME = "Unity.WebP";
+        /// <summary>
+        /// URL for OpenUMP-Registry
+        /// </summary>
+        private const string OPENUPM_REGISTRY_URL = @"https://package.openupm.com";
+        /// <summary>
+        /// Scopes required in OpenUPM for WebP-Library
+        /// </summary>
+        private static readonly string[] OPENUPM_SCOPES = new[] { "com.netpyoung.webp", "org.nuget.system.runtime.compilerservices.unsafe" };
 
         /// <summary>
         /// Active PackageManager-Request
@@ -39,8 +49,48 @@ namespace TikTokLiveUnity.Editor
             if (PackageManagerRequest != null)
                 return; // Already Processing a Request
             Debug.Log("[TikTokLive] Attempting to install WebP-Support...");
-            PackageManagerRequest = UnityEditor.PackageManager.Client.List(); // List Installed Packages
+            ResolveScopedRegistry();
+            PackageManagerRequest = Client.List(); // List Installed Packages
             EditorApplication.update += CheckProgress; // Add callback to Editor-UpdateLoop
+        }
+
+        /// <summary>
+        /// Checks if required OpenUMP-Registry is available with correct Scopes for WebP.
+        /// <para>
+        /// Will add registry or scopes if this is needed.
+        /// </para>
+        /// </summary>
+        private static void ResolveScopedRegistry()
+        {
+            if (!ManifestHelper.HasScopedRegistry(OPENUPM_REGISTRY_URL))
+            {
+                // Add Registry
+                Debug.Log("[TikTokLive] Adding OpenUPM-Registry.");
+                ManifestHelper.AddRegistry(OPENUPM_REGISTRY_URL, "OpenUPM", OPENUPM_SCOPES);
+                // Force Resolve to update.
+                Client.Resolve();
+            }
+            else
+            {
+                // Check Scopes in Registry
+                string[] scopes = ManifestHelper.ListScopesInRegistry(OPENUPM_REGISTRY_URL);
+                List<string> scopesToAdd = new List<string>(2);
+                foreach (string scope in OPENUPM_SCOPES)
+                {
+                    if (!scopes.Contains(scope))
+                    {
+                        scopesToAdd.Add(scope);
+                    }
+                }
+                if (scopesToAdd.Count > 0)
+                {
+                    // Add Scopes
+                    Debug.Log("[TikTokLive] Adding required Scopes to OpenUPM-Registry.");
+                    ManifestHelper.AddScopesToRegistry(OPENUPM_REGISTRY_URL, scopesToAdd.ToArray());
+                    // Force Resolve to update.
+                    Client.Resolve();
+                }
+            }
         }
 
         /// <summary>
@@ -69,7 +119,7 @@ namespace TikTokLiveUnity.Editor
                                 return;
                             }
                         // No WebP Installed. Add Now
-                        Debug.Log("[TikTokLive] Installing WebP-Package. Please wait.");
+                        Debug.Log($"[TikTokLive] Installing WebP-Package. Please wait.{System.Environment.NewLine}If this operation also affected the OpenUPM-Registry, please close any related popup and note that this operation can take a bit longer to complete.");
                         PackageManagerRequest = UnityEditor.PackageManager.Client.Add(WEBP_URL);
                         return;
                     }
