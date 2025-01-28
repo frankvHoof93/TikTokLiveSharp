@@ -1,4 +1,4 @@
-# TikTokLiveSharp / TikTokLiveUnity v1.2.1
+# TikTokLiveSharp / TikTokLiveUnity v1.2.2
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&style=flat-square)](https://www.linkedin.com/in/frankvhoof93/)
 ![Issues](https://img.shields.io/github/issues/frankvHoof93/TikTokLiveSharp)
@@ -29,6 +29,8 @@ Other available versions include:
 - [TikTokLive](https://github.com/isaackogan/TikTokLive) - Python Library (by Isaac Kogan)
 - [TikTokLiveJava](https://github.com/jwdeveloper/TikTokLiveJava) - Java Library (by JW)
 - [TikTokLiveRust](https://github.com/jwdeveloper/TikTokLiveRust) - Rust Library (by JW)
+- [GoTikTokLive] (https://github.com/steampoweredtaco/gotiktoklive) - Go Library (by Taco)
+- [TikTokPlugin] (https://github.com/RealShibaGames/TikTokPlugin) - Unreal Engine Library (by RealShibaGames)
 
 The primary incentive behind this library was to update the existing TikTokLive-Library with anew Messaging-Schema and additional Exception-Handling. It's implemented in .NET Standard and should work universally across all .NET supported platforms. An older version of Protobuf-net was used to ensure Unity compatibility.
 
@@ -48,6 +50,8 @@ Setup of the Unity Library can be found [here](Setup_Unity.MD)
 * **David Brouwer** - *Reverse-Engineering Stream Downloads*  - [davincible](https://github.com/davincible)
 * **JW** - *Creator of TikTokLiveJava* - [JW](https://github.com/jwdeveloper)
 * **David Teather** - *TikTokLive Introduction Tutorial* - [davidteather](https://github.com/davidteather)
+* **Taco** - *Creator of GoTikTokLive* - [taco](https://github.com/steampoweredtaco)
+* **RealShibaGames** - *Creator of TikTokPlugin* - [RealShibaGames](https://github.com/RealShibaGames)
 
 ## Contributing
 ### How can I help?
