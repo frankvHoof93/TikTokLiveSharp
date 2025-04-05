@@ -42,7 +42,7 @@ namespace TikTokLiveSharp.Events
         /// <summary>
         /// Emotes in Message (in order)
         /// </summary>
-        public readonly IReadOnlyList<Emote> Emotes;
+        public readonly IReadOnlyList<Models.Protobuf.Messages.ChatMessage.EmoteWithIndex> Emotes;
         /// <summary>
         /// Language for Sender
         /// </summary>
@@ -67,7 +67,7 @@ namespace TikTokLiveSharp.Events
             GiftImage = msg?.GiftImage;
             InputType = msg?.InputType ?? -1;
             MentionedUsers = msg?.MentionedUsers?.Count > 0 ? msg.MentionedUsers.Select(u => (User)u).ToList().AsReadOnly() : new List<User>(0).AsReadOnly();
-            Emotes = msg?.EmotesList?.Count > 0 ? msg.EmotesList.OrderBy(e => e.Index).Select(e => (Emote)e.Emote).ToList().AsReadOnly() : new List<Emote>(0).AsReadOnly();
+            Emotes = msg?.EmotesList?.Count > 0 ? msg.EmotesList.OrderBy(e => e.Index).ToList().AsReadOnly() : new List<Models.Protobuf.Messages.ChatMessage.EmoteWithIndex>(0).AsReadOnly();
             ContentLanguage = msg?.ContentLanguage ?? string.Empty;
             MsgFilter = msg?.MsgFilter;
             QuickChatScene = msg?.QuickChatScene ?? -1;
