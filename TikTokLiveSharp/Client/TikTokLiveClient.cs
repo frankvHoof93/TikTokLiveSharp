@@ -232,7 +232,13 @@ namespace TikTokLiveSharp.Client
         /// </para>
         /// </summary>
         public event TikTokEventHandler<Models.Protobuf.Messages.Message> OnUnhandled;
-
+        /// <summary>
+        /// Event fired for EVERY ServerMessage.
+        /// <para>
+        /// Use this for full manual handling of all messages.
+        /// </para>
+        /// </summary>
+        public event TikTokEventHandler<Models.Protobuf.Messages.Message> OnMessage;
 
         // The events below are less well understood.
         // They are missing a lot of variable-names & -Types (especially Enums).
@@ -399,6 +405,9 @@ namespace TikTokLiveSharp.Client
             string method = message.Method;
             if (method.StartsWith("Webcast"))
                 method = method.Substring(7);
+
+            // Run OnMessage
+            RunEvent(OnMessage, message);
 
             using (MemoryStream stream = new MemoryStream(message.Payload))
                 switch (method)
