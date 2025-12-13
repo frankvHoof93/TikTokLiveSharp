@@ -24,6 +24,7 @@ namespace TikTokLiveSharp.Client.Config
         /// User-Agent for WebClients (Http/WebSocket)
         /// </summary>
         public const string USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
+        public const string USER_AGENT_WEBSOCKET = "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
         /// <summary>
         /// Browser version for WebClients parameter (Http/WebSocket)
         /// </summary>
@@ -122,7 +123,7 @@ namespace TikTokLiveSharp.Client.Config
             { "authority", "www.tiktok.com" },
             { "Cache-Control", "max-age=0" },
             { "Accept", "text/html,application/json,application/protobuf" },
-            { "User-Agent", USER_AGENT },
+            { "User-Agent", USER_AGENT_WEBSOCKET },
             { "Referer", TIKTOK_URL_WEB },
             { "Origin", TIKTOK_URL_WEB },
             { "Accept-Language", "en; q=0.8" }
