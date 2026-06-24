@@ -83,12 +83,12 @@ namespace TikTokLiveSharp.Client.HTTP
         /// <summary>
         /// Client used for HttpRequests
         /// </summary>
-        private static HttpClient client;
+        private static volatile HttpClient client;
 
         /// <summary>
-        /// Handler for Request-Data
+        /// Lock guarding the lazy initialization of <see cref="client"/>
         /// </summary>
-        private static HttpClientHandler handler;
+        private static readonly object clientInitLock = new object();
 
         /// <summary>
         /// Timeout for Requests
@@ -142,33 +142,61 @@ namespace TikTokLiveSharp.Client.HTTP
                 throw new ArgumentException("Invalid Url", nameof(url));
             if (CookieJar == null)
                 CookieJar = new TikTokCookieJar();
-            if (handler == null)
-                handler = new HttpClientHandler
-                {
-                    AutomaticDecompression = enableCompression ? ~DecompressionMethods.None : DecompressionMethods.None,
-                    Proxy = WebProxy,
-                    UseProxy = WebProxy != null,
-                    UseCookies = useCookies
-                };
-            if (client == null)
-            {
-                client = new HttpClient(handler)
-                {
-                    Timeout = Timeout
-                };
-                foreach (KeyValuePair<string, string> header in Constants.DEFAULT_HTTP_HEADERS)
-                    client.DefaultRequestHeaders.Add(header.Key, header.Value);
-                if (enableCompression)
-                    client.DefaultRequestHeaders.Add(Constants.COMPRESSION_HEADER.Key, Constants.COMPRESSION_HEADER.Value);
-                if (!string.IsNullOrEmpty(clientLanguage))
-                    client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(clientLanguage, 0.9));
-            }
+            EnsureClientInitialized(enableCompression, useCookies);
             request = new HttpRequestMessage
             {
                 RequestUri = result
             };
             request.Headers.Host = result.Host;
             sent = false;
+        }
+
+        /// <summary>
+        /// Lazily initializes the shared <see cref="client"/> in a thread-safe manner.
+        /// </summary>
+        /// <param name="enableCompression">Enable Compression for Http-Response</param>
+        /// <param name="useCookies">Whether to allow for Cookies on the Http-Request</param>
+        /// <remarks>
+        /// Uses double-checked locking so the static client is created exactly once,
+        /// even when multiple clients connect concurrently.
+        /// <para>
+        /// The default request-headers are also fully parsed here, while still single-threaded:
+        /// <see cref="HttpRequestHeaders"/> parses raw header-strings lazily on first read, mutating the
+        /// shared header-store. Without this, concurrent <see cref="HttpClient.SendAsync(HttpRequestMessage)"/>
+        /// calls would parse them simultaneously, throwing a NullReferenceException while writing the headers.
+        /// </para>
+        /// </remarks>
+        private static void EnsureClientInitialized(bool enableCompression, bool useCookies)
+        {
+            if (client != null)
+                return;
+            lock (clientInitLock)
+            {
+                if (client != null)
+                    return;
+                HttpClientHandler handler = new HttpClientHandler
+                {
+                    AutomaticDecompression = enableCompression ? ~DecompressionMethods.None : DecompressionMethods.None,
+                    Proxy = WebProxy,
+                    UseProxy = WebProxy != null,
+                    UseCookies = useCookies
+                };
+                HttpClient newClient = new HttpClient(handler)
+                {
+                    Timeout = Timeout
+                };
+                foreach (KeyValuePair<string, string> header in Constants.DEFAULT_HTTP_HEADERS)
+                    newClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+                if (enableCompression)
+                    newClient.DefaultRequestHeaders.Add(Constants.COMPRESSION_HEADER.Key, Constants.COMPRESSION_HEADER.Value);
+                if (!string.IsNullOrEmpty(clientLanguage))
+                    newClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(clientLanguage, 0.9));
+                // Force the lazy header-parsing to run once here, while still single-threaded.
+                // After this, concurrent reads of DefaultRequestHeaders no longer mutate the shared store.
+                _ = newClient.DefaultRequestHeaders.ToString();
+                // Publish the fully-initialized client last (volatile write) so other threads never observe a partial instance.
+                client = newClient;
+            }
         }
         #endregion
 
